@@ -1,10 +1,17 @@
 import { FunctionComponent } from 'react'
+import { BrowserRouter, Routes, Route } from 'react-router-dom'
 
-// //Components
-import Header from './components/header/header.components'
+// Pages
+import HomePage from './page/home/home.page'
 
 const App: FunctionComponent = () => {
-  return <Header />
+  return (
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<HomePage />} />
+      </Routes>
+    </BrowserRouter>
+  )
 }
 
 export default App
