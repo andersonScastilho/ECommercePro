@@ -1,7 +1,10 @@
-import { FunctionComponent, useState } from 'react'
+import { FunctionComponent } from 'react'
 
-const App = () => {
-  return <h1></h1>
+// //Components
+import Header from './components/header/header.components'
+
+const App: FunctionComponent = () => {
+  return <Header />
 }
 
 export default App
