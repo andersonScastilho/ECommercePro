@@ -1,10 +1,10 @@
 .header-container {
     width: 100%;
-    background-color: #212529;
+    background:linear-gradient(to right, red, white);
     display: flex;
     justify-content: space-between;
     padding: 20px;
-    color: #f8f9fa;
+    color: black;
   }
   
   .header-title {
