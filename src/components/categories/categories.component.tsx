@@ -5,8 +5,10 @@ import { useEffect, useState } from 'react'
 import CategoryType from '../../types/category.types' // Tipo
 import env from '../../config/env.config'
 
-// Styles
+// Components
 import CategoryItem from '../category-item/category-item.component'
+
+// Styles
 import { CategoriesContainer, CategoriesContent } from './categories.styles'
 
 const Categories = () => {
