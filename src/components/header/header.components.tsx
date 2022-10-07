@@ -11,6 +11,9 @@ import {
 
 const Header = () => {
   const navigate = useNavigate()
+  const handleSignUpClick = () => {
+    navigate('/sign-up')
+  }
   const handleLoginClick = () => {
     navigate('/login')
   }
@@ -20,7 +23,7 @@ const Header = () => {
       <Headeritems>
         <HeaderItem>Explorar</HeaderItem>
         <HeaderItem onClick={handleLoginClick}>Login</HeaderItem>
-        <HeaderItem>Criar Conta</HeaderItem>
+        <HeaderItem onClick={handleSignUpClick}>Criar Conta</HeaderItem>
         <HeaderItem>
           <BsCart3 size={25} />
         </HeaderItem>
