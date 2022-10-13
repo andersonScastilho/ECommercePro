@@ -5,7 +5,8 @@ import validator from 'validator'
 import {
   AuthError,
   AuthErrorCodes,
-  signInWithEmailAndPassword
+  signInWithEmailAndPassword,
+  signInWithPopup
 } from 'firebase/auth'
 // Components
 import CustomButton from '../../components/custom-button/custom-button.component'
@@ -21,7 +22,8 @@ import {
   LoginInputContainer,
   LoginSubtitle
 } from './login.page.styles'
-import { auth } from '../../config/firebase.config'
+import { auth, db, googleProvider } from '../../config/firebase.config'
+import { addDoc, collection, getDocs, query, where } from 'firebase/firestore'
 
 interface LoginForm {
   email: string
@@ -34,6 +36,31 @@ const LoginPage = () => {
     formState: { errors },
     handleSubmit
   } = useForm<LoginForm>()
+  const handleSignInGooglePress = async () => {
+    try {
+      const userCredentials = await signInWithPopup(auth, googleProvider)
+      const querySnapshot = await getDocs(
+        query(
+          collection(db, 'users'),
+          where('id', '==', userCredentials.user.uid)
+        )
+      )
+      const user = querySnapshot.docs[0]?.data()
+      if (!user) {
+        const firstName = userCredentials.user.displayName?.split(' ')[0]
+        const lastName = userCredentials.user.displayName?.split(' ')[1]
+        await addDoc(collection(db, 'users'), {
+          id: userCredentials.user.uid,
+          email: userCredentials.user.email,
+          firstName,
+          lastName,
+          provider: 'google'
+        })
+      }
+    } catch (error) {
+      console.log(error)
+    }
+  }
   const handleSubmitPress = async (data: LoginForm) => {
     try {
       const userCredentials = await signInWithEmailAndPassword(
@@ -60,7 +87,9 @@ const LoginPage = () => {
       <LoginContainer>
         <LoginContent>
           <LoginHeadline>Entre com sua conta</LoginHeadline>
-          <CustomButton startICon={<BsGoogle size={18} />}>
+          <CustomButton
+            startICon={<BsGoogle size={18} />}
+            onClick={handleSignInGooglePress}>
             Entrar com o google
           </CustomButton>
           <LoginSubtitle>Entre com seu e-mail</LoginSubtitle>
