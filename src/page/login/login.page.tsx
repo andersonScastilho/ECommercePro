@@ -1,7 +1,9 @@
 import { BsGoogle } from 'react-icons/bs'
 import { FiLogIn } from 'react-icons/fi'
 import { useForm } from 'react-hook-form'
+import { useNavigate } from 'react-router-dom'
 import validator from 'validator'
+import { useEffect, useContext } from 'react'
 import {
   AuthError,
   AuthErrorCodes,
@@ -24,6 +26,7 @@ import {
 } from './login.page.styles'
 import { auth, db, googleProvider } from '../../config/firebase.config'
 import { addDoc, collection, getDocs, query, where } from 'firebase/firestore'
+import { UserContext } from '../../contexts/user.context'
 
 interface LoginForm {
   email: string
@@ -36,6 +39,13 @@ const LoginPage = () => {
     formState: { errors },
     handleSubmit
   } = useForm<LoginForm>()
+  const navigate = useNavigate()
+  const { isAuthenticated } = useContext(UserContext)
+  useEffect(() => {
+    if (isAuthenticated) {
+      navigate('/')
+    }
+  }, [isAuthenticated])
   const handleSignInGooglePress = async () => {
     try {
       const userCredentials = await signInWithPopup(auth, googleProvider)

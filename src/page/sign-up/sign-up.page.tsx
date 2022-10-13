@@ -1,5 +1,7 @@
 import { FiLogIn } from 'react-icons/fi'
 import { useForm } from 'react-hook-form'
+import { useContext, useEffect } from 'react'
+import { useNavigate } from 'react-router-dom'
 import validator from 'validator'
 import {
   AuthError,
@@ -20,6 +22,7 @@ import {
 import InputErrorMessage from '../../components/input-error-message/input-error-message.component'
 import { auth, db } from '../../config/firebase.config'
 import { addDoc, collection } from 'firebase/firestore'
+import { UserContext } from '../../contexts/user.context'
 
 interface SignUpForm {
   firstName: string
@@ -28,6 +31,7 @@ interface SignUpForm {
   password: string
   passwordConfirmation: string
 }
+
 const SignUpPage = () => {
   const {
     register,
@@ -36,8 +40,15 @@ const SignUpPage = () => {
     setError,
     formState: { errors }
   } = useForm<SignUpForm>()
-  const watchPassword = watch('password')
 
+  const watchPassword = watch('password')
+  const navigate = useNavigate()
+  const { isAuthenticated } = useContext(UserContext)
+  useEffect(() => {
+    if (isAuthenticated) {
+      navigate('/')
+    }
+  }, [isAuthenticated])
   const handleSubmitPress = async (data: SignUpForm) => {
     try {
       const userCredentials = await createUserWithEmailAndPassword(
