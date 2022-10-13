@@ -1,6 +1,11 @@
 import { FiLogIn } from 'react-icons/fi'
 import { useForm } from 'react-hook-form'
 import validator from 'validator'
+import {
+  AuthError,
+  AuthErrorCodes,
+  createUserWithEmailAndPassword
+} from 'firebase/auth'
 
 import CustomButton from '../../components/custom-button/custom-button.component'
 import CustomInput from '../../components/custom-input/custom-input.component'
@@ -13,9 +18,11 @@ import {
   SignUpInputContainer
 } from './sign-up.page.styles'
 import InputErrorMessage from '../../components/input-error-message/input-error-message.component'
+import { auth, db } from '../../config/firebase.config'
+import { addDoc, collection } from 'firebase/firestore'
 
 interface SignUpForm {
-  name: string
+  firstName: string
   lastName: string
   email: string
   password: string
@@ -26,10 +33,33 @@ const SignUpPage = () => {
     register,
     handleSubmit,
     watch,
+    setError,
     formState: { errors }
   } = useForm<SignUpForm>()
-  const handleSubmitPress = (data: SignUpForm) => {}
   const watchPassword = watch('password')
+
+  const handleSubmitPress = async (data: SignUpForm) => {
+    try {
+      const userCredentials = await createUserWithEmailAndPassword(
+        auth,
+        data.email,
+        data.password
+      )
+      await addDoc(collection(db, 'users'), {
+        id: userCredentials.user.uid,
+        email: userCredentials.user.email,
+        firstName: data.firstName,
+        lastName: data.lastName,
+        provider: 'firebase'
+      })
+    } catch (error) {
+      const _error = error as AuthError
+      if (_error.code === AuthErrorCodes.EMAIL_EXISTS) {
+        return setError('email', { type: 'alreadInUse' })
+      }
+    }
+  }
+
   return (
     <>
       <Header />
@@ -39,11 +69,11 @@ const SignUpPage = () => {
           <SignUpInputContainer>
             <p>Nome</p>
             <CustomInput
-              hasError={!!errors?.name}
+              hasError={!!errors?.firstName}
               placeholder="Digite seu nome"
-              {...register('name', { required: true })}
+              {...register('firstName', { required: true })}
             />
-            {errors?.name?.type === 'required' && (
+            {errors?.firstName?.type === 'required' && (
               <InputErrorMessage>O nome é obrigatório.</InputErrorMessage>
             )}
           </SignUpInputContainer>
@@ -75,6 +105,11 @@ const SignUpPage = () => {
             )}
             {errors?.email?.type === 'validate' && (
               <InputErrorMessage>Insira um e-mail valido.</InputErrorMessage>
+            )}
+            {errors?.email?.type === 'alreadInUse' && (
+              <InputErrorMessage>
+                Esste e-mail ja esta sendo utilizado
+              </InputErrorMessage>
             )}
           </SignUpInputContainer>
           <SignUpInputContainer>
