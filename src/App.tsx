@@ -6,6 +6,7 @@ import LoadingComponent from './components/loading/loading.component'
 import { auth, db } from './config/firebase.config'
 import { UserContext } from './contexts/user.context'
 import { UserConverter } from './converters/firebase.converter'
+import CategoryDetailsPage from './page/category-details/category-details.page'
 import ExplorePage from './page/explore/explore.page'
 
 // Pages
@@ -46,9 +47,10 @@ const App: FunctionComponent = () => {
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<HomePage />} />
+        <Route path="/explorer" element={<ExplorePage />} />
+        <Route path="/category/:id" element={<CategoryDetailsPage />} />
         <Route path="/login" element={<LoginPage />} />
         <Route path="/sign-up" element={<SignUpPage />} />
-        <Route path="/explorer" element={<ExplorePage />} />
       </Routes>
     </BrowserRouter>
   )
