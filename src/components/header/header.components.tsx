@@ -11,9 +11,11 @@ import {
   HeaderTitle
 } from './header.styles'
 import { UserContext } from '../../contexts/user.context'
+import { CartContext } from '../../contexts/cart.context'
 
 const Header = () => {
   const { isAuthenticated } = useContext(UserContext)
+  const { toggleCart } = useContext(CartContext)
   const navigate = useNavigate()
   const handleSignUpClick = () => {
     navigate('/sign-up')
@@ -42,8 +44,8 @@ const Header = () => {
         {isAuthenticated && (
           <HeaderItem onClick={() => signOut(auth)}>Sair</HeaderItem>
         )}
-        <HeaderItem>
-          <BsCart3 size={25} />
+        <HeaderItem onClick={toggleCart}>
+          <BsCart3 size={25} />5
         </HeaderItem>
       </Headeritems>
     </HeaderContainer>

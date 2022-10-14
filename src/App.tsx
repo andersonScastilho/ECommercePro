@@ -2,6 +2,7 @@ import { onAuthStateChanged } from 'firebase/auth'
 import { collection, getDocs, query, where } from 'firebase/firestore'
 import { FunctionComponent, useContext, useState } from 'react'
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
+import Cart from './components/cart/cart.component'
 import LoadingComponent from './components/loading/loading.component'
 import { auth, db } from './config/firebase.config'
 import { UserContext } from './contexts/user.context'
@@ -52,6 +53,7 @@ const App: FunctionComponent = () => {
         <Route path="/login" element={<LoginPage />} />
         <Route path="/sign-up" element={<SignUpPage />} />
       </Routes>
+      <Cart />
     </BrowserRouter>
   )
 }
