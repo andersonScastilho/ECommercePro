@@ -1,39 +1,23 @@
-import { useEffect, useState } from 'react'
-import { getDocs, collection } from 'firebase/firestore'
-// Utilities
-import CategoryType from '../../types/category.types' // Tipo
+import { useEffect, useContext } from 'react'
+import { CategoryContext } from '../../contexts/category.context'
 
 // Components
 import CategoryItem from '../category-item/category-item.component'
+import LoadingComponent from '../loading/loading.component'
 
 // Styles
 import { CategoriesContainer, CategoriesContent } from './categories.styles'
-import { db } from '../../config/firebase.config'
-import { categoryConverter } from '../../converters/firebase.converter'
 
 const Categories = () => {
-  const [categories, setCategories] = useState<CategoryType[]>([])
+  const { categories, isLoading, fetchCategories } = useContext(CategoryContext)
 
-  const fetchcategories = async () => {
-    try {
-      const categoriesFromFirestore: CategoryType[] = []
-      const querysnapshot = await getDocs(
-        collection(db, 'categories').withConverter(categoryConverter)
-      )
-      querysnapshot.forEach((doc) => {
-        categoriesFromFirestore.push(doc.data())
-      })
-      setCategories(categoriesFromFirestore)
-    } catch (error) {
-      console.log({ error })
-    }
-  }
   useEffect(() => {
-    fetchcategories()
+    fetchCategories()
   }, [])
 
   return (
     <CategoriesContainer>
+      {isLoading && <LoadingComponent />}
       <CategoriesContent>
         {categories.map((category) => (
           <div key={category.id}>
