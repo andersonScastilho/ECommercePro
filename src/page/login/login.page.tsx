@@ -3,7 +3,7 @@ import { FiLogIn } from 'react-icons/fi'
 import { useForm } from 'react-hook-form'
 import { useNavigate } from 'react-router-dom'
 import validator from 'validator'
-import { useEffect, useContext } from 'react'
+import { useEffect, useContext, useState } from 'react'
 import {
   AuthError,
   AuthErrorCodes,
@@ -27,6 +27,7 @@ import {
 import { auth, db, googleProvider } from '../../config/firebase.config'
 import { addDoc, collection, getDocs, query, where } from 'firebase/firestore'
 import { UserContext } from '../../contexts/user.context'
+import LoadingComponent from '../../components/loading/loading.component'
 
 interface LoginForm {
   email: string
@@ -39,6 +40,7 @@ const LoginPage = () => {
     formState: { errors },
     handleSubmit
   } = useForm<LoginForm>()
+  const [isLoading, setIsLoading] = useState(false)
   const navigate = useNavigate()
   const { isAuthenticated } = useContext(UserContext)
   useEffect(() => {
@@ -48,6 +50,7 @@ const LoginPage = () => {
   }, [isAuthenticated])
   const handleSignInGooglePress = async () => {
     try {
+      setIsLoading(true)
       const userCredentials = await signInWithPopup(auth, googleProvider)
       const querySnapshot = await getDocs(
         query(
@@ -69,10 +72,13 @@ const LoginPage = () => {
       }
     } catch (error) {
       console.log(error)
+    } finally {
+      setIsLoading(false)
     }
   }
   const handleSubmitPress = async (data: LoginForm) => {
     try {
+      setIsLoading(true)
       const userCredentials = await signInWithEmailAndPassword(
         auth,
         data.email,
@@ -88,12 +94,15 @@ const LoginPage = () => {
       if (_error.code === AuthErrorCodes.INVALID_PASSWORD) {
         return setError('password', { type: 'invalidPassword' })
       }
+    } finally {
+      setIsLoading(false)
     }
   }
 
   return (
     <>
       <Header />
+      {isLoading && <LoadingComponent />}
       <LoginContainer>
         <LoginContent>
           <LoginHeadline>Entre com sua conta</LoginHeadline>
