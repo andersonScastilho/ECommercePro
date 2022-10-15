@@ -7,13 +7,15 @@ interface ICartContext {
   products: CartProductType[]
   toggleCart: () => void
   addProductToCart: (product: ProdutoType) => void
+  removeItemCart: (productId: string) => void
 }
 
 export const CartContext = createContext<ICartContext>({
   isVisible: false,
   products: [],
   toggleCart: () => {},
-  addProductToCart: () => {}
+  addProductToCart: () => {},
+  removeItemCart: () => {}
 })
 interface childrenProps {
   children: React.ReactNode
@@ -29,7 +31,11 @@ const CartContextProvider: FunctionComponent<childrenProps> = ({
   const toggleCart = () => {
     setIsVisible((prevState) => !prevState)
   }
-
+  const removeItemCart = (productId: string) => {
+    setProducts((products) =>
+      products.filter((product) => product.id !== productId)
+    )
+  }
   const addProductToCart = (product: ProdutoType) => {
     const productAlreadInCart = products.some((item) => item.id === product.id)
     if (productAlreadInCart) {
@@ -43,9 +49,16 @@ const CartContextProvider: FunctionComponent<childrenProps> = ({
     }
     setProducts((prveState) => [...prveState, { ...product, quantity: 1 }])
   }
+
   return (
     <CartContext.Provider
-      value={{ isVisible, products, toggleCart, addProductToCart }}>
+      value={{
+        isVisible,
+        products,
+        toggleCart,
+        addProductToCart,
+        removeItemCart
+      }}>
       {children}
     </CartContext.Provider>
   )
