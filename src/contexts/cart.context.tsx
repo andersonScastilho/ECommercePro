@@ -29,7 +29,18 @@ const CartContextProvider: FunctionComponent<childrenProps> = ({
   const toggleCart = () => {
     setIsVisible((prevState) => !prevState)
   }
+
   const addProductToCart = (product: ProdutoType) => {
+    const productAlreadInCart = products.some((item) => item.id === product.id)
+    if (productAlreadInCart) {
+      return setProducts((prevState) =>
+        prevState.map((item) =>
+          item.id === product.id
+            ? { ...item, quantity: item.quantity + 1 }
+            : item
+        )
+      )
+    }
     setProducts((prveState) => [...prveState, { ...product, quantity: 1 }])
   }
   return (
