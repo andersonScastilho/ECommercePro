@@ -12,7 +12,7 @@ import { CartContext } from '../../contexts/cart.context'
 import CartItem from '../cart-item/cart-item.component'
 
 const Cart: FunctionComponent = () => {
-  const { isVisible, products, productsTotalPrice, toggleCart } =
+  const { isVisible, products, productsTotalPrice, productsCount, toggleCart } =
     useContext(CartContext)
   return (
     <CartContainer isVisible={isVisible}>
@@ -22,8 +22,13 @@ const Cart: FunctionComponent = () => {
         {products.map((product) => (
           <CartItem product={product} key={product.id} />
         ))}
-        <CartTotal>Total: R${productsTotalPrice}</CartTotal>
-        <CustomButton startICon={<BsCart />}>Ir para o Checkout</CustomButton>
+        {productsCount > 0 && (
+          <CartTotal>Total: R${productsTotalPrice}</CartTotal>
+        )}
+        {productsCount > 0 && (
+          <CustomButton startICon={<BsCart />}>Ir para o Checkout</CustomButton>
+        )}
+        {productsCount === 0 && <p> Seu carrinho esta vazio</p>}
       </CartContent>
     </CartContainer>
   )
