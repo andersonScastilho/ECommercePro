@@ -2,6 +2,6 @@ interface ProdutoType {
   id: string
   imageUrl: string
   name: string
-  price: string
+  price: number
 }
 export default ProdutoType
