@@ -15,6 +15,7 @@ import ExplorePage from './page/explore/explore.page'
 // Pages
 import HomePage from './page/home/home.page'
 import LoginPage from './page/login/login.page'
+import PaymentConfirmationPage from './page/payment/payment-confirmation.component'
 import SignUpPage from './page/sign-up/sign-up.page'
 
 const App: FunctionComponent = () => {
@@ -61,6 +62,10 @@ const App: FunctionComponent = () => {
               <CheckoutPage />
             </AuthenticationGuard>
           }
+        />
+        <Route
+          path="/payment-confirmation"
+          element={<PaymentConfirmationPage />}
         />
       </Routes>
       <Cart />
