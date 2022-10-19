@@ -22,6 +22,7 @@
     "react-scripts": "5.0.1",
     "react-spinners": "^0.13.6",
     "redux": "^4.2.0",
+    "redux-logger": "^3.0.6",
     "styled-component": "^2.8.0",
     "styled-components": "^5.3.6",
     "typescript": "*",
@@ -54,6 +55,7 @@
   },
   "devDependencies": {
     "@types/react-redux": "^7.1.24",
+    "@types/redux-logger": "^3.0.9",
     "@types/validator": "^13.7.7",
     "@typescript-eslint/eslint-plugin": "^5.0.0",
     "eslint": "^8.0.1",

@@ -1,8 +1,8 @@
-import React, { FunctionComponent, useContext, useEffect } from 'react'
+import React, { FunctionComponent, useEffect } from 'react'
+import { useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 import Header from '../components/header/header.components'
 import LoadingComponent from '../components/loading/loading.component'
-import { UserContext } from '../contexts/user.context'
 
 interface childrentIsComponent {
   children: React.ReactNode
@@ -11,7 +11,9 @@ interface childrentIsComponent {
 const AuthenticationGuard: FunctionComponent<childrentIsComponent> = ({
   children
 }) => {
-  const { isAuthenticated } = useContext(UserContext)
+  const { isAuthenticated } = useSelector(
+    (rootReducer: any) => rootReducer.userReducer
+  )
   const navigate = useNavigate()
 
   useEffect(() => {
