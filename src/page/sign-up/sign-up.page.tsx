@@ -1,6 +1,6 @@
 import { FiLogIn } from 'react-icons/fi'
 import { useForm } from 'react-hook-form'
-import { useContext, useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import validator from 'validator'
 import {
@@ -22,8 +22,8 @@ import {
 import InputErrorMessage from '../../components/input-error-message/input-error-message.component'
 import { auth, db } from '../../config/firebase.config'
 import { addDoc, collection } from 'firebase/firestore'
-import { UserContext } from '../../contexts/user.context'
 import LoadingComponent from '../../components/loading/loading.component'
+import { useSelector } from 'react-redux'
 
 interface SignUpForm {
   firstName: string
@@ -41,10 +41,16 @@ const SignUpPage = () => {
     setError,
     formState: { errors }
   } = useForm<SignUpForm>()
+
   const [isLoading, setIsLoading] = useState(false)
+
   const watchPassword = watch('password')
+
   const navigate = useNavigate()
-  const { isAuthenticated } = useContext(UserContext)
+
+  const { isAuthenticated } = useSelector(
+    (rootReducer: any) => rootReducer.userReducer
+  )
   useEffect(() => {
     if (isAuthenticated) {
       navigate('/')

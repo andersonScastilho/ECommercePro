@@ -1,16 +1,8 @@
 import { onAuthStateChanged } from 'firebase/auth'
-import { collection, getDocs, query, where } from 'firebase/firestore'
-import { FunctionComponent, useContext, useState } from 'react'
+import { FunctionComponent, useEffect, useState } from 'react'
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
-import Cart from './components/cart/cart.component'
-import LoadingComponent from './components/loading/loading.component'
-import { auth, db } from './config/firebase.config'
-import { UserContext } from './contexts/user.context'
-import { UserConverter } from './converters/firebase.converter'
-import AuthenticationGuard from './guards/authentication.guards'
-import CategoryDetailsPage from './page/category-details/category-details.page'
-import CheckoutPage from './page/checkout/checkout.page'
-import ExplorePage from './page/explore/explore.page'
+import { collection, getDocs, query, where } from 'firebase/firestore'
+import { useDispatch, useSelector } from 'react-redux'
 
 // Pages
 import HomePage from './page/home/home.page'
@@ -18,35 +10,57 @@ import LoginPage from './page/login/login.page'
 import PaymentConfirmationPage from './page/payment/payment-confirmation.component'
 import SignUpPage from './page/sign-up/sign-up.page'
 
+// Utilities
+import { auth, db } from './config/firebase.config'
+import { UserConverter } from './converters/firebase.converter'
+
+// Components
+import Cart from './components/cart/cart.component'
+import LoadingComponent from './components/loading/loading.component'
+import AuthenticationGuard from './guards/authentication.guards'
+import CategoryDetailsPage from './page/category-details/category-details.page'
+import CheckoutPage from './page/checkout/checkout.page'
+import ExplorePage from './page/explore/explore.page'
+
 const App: FunctionComponent = () => {
   const [isInitialize, setInitialize] = useState(true)
 
-  const { isAuthenticated, loginUser, logoutUser } = useContext(UserContext)
+  const dispatch = useDispatch()
+  const { isAuthenticated } = useSelector(
+    (rooteReducer: any) => rooteReducer.userReducer
+  )
 
-  onAuthStateChanged(auth, async (user) => {
-    const isSigninOut = isAuthenticated && !user
-    if (isSigninOut) {
-      logoutUser()
-      return setInitialize(false)
-    }
-    const isSignIn = !isAuthenticated && user
-    if (isSignIn) {
-      const querySnapshot = await getDocs(
-        query(
-          collection(db, 'users').withConverter(UserConverter),
-          where('id', '==', user.uid)
+  useEffect(() => {
+    onAuthStateChanged(auth, async (user) => {
+      const isSigninOut = isAuthenticated && !user
+
+      if (isSigninOut) {
+        dispatch({
+          type: 'LOGOUT_USER'
+        })
+
+        return setInitialize(false)
+      }
+
+      const isSignIn = !isAuthenticated && user
+      if (isSignIn) {
+        const querySnapshot = await getDocs(
+          query(
+            collection(db, 'users').withConverter(UserConverter),
+            where('id', '==', user.uid)
+          )
         )
-      )
-      const userFromFirestore = querySnapshot.docs[0]?.data()
-      loginUser(userFromFirestore)
-      return setInitialize(false)
-    }
-    setInitialize(false)
-  })
+        const userFromFirestore = querySnapshot.docs[0]?.data()
 
+        dispatch({ type: 'LOGIN_USER', payload: userFromFirestore })
+
+        return setInitialize(false)
+      }
+      setInitialize(false)
+    })
+  }, [dispatch])
   if (isInitialize) return <LoadingComponent />
 
-  console.log(isAuthenticated)
   return (
     <BrowserRouter>
       <Routes>
