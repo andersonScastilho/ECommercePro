@@ -14,12 +14,13 @@ import { CartContext } from '../../contexts/cart.context'
 import { signOut } from 'firebase/auth'
 import { auth } from '../../config/firebase.config'
 import { LogoutAction } from '../../store/reducers/user/user.actions'
+import { toogleCart } from '../../store/reducers/cart/cart.actions'
 
 const Header = () => {
   const { isAuthenticated } = useSelector(
     (rootReducer: any) => rootReducer.userReducer
   )
-  const { productsCount, toggleCart } = useContext(CartContext)
+  const { productsCount } = useContext(CartContext)
 
   const navigate = useNavigate()
 
@@ -45,6 +46,9 @@ const Header = () => {
     dispatch(LogoutAction())
     signOut(auth)
   }
+  const handleCartClick = () => {
+    dispatch(toogleCart())
+  }
 
   return (
     <HeaderContainer>
@@ -61,7 +65,7 @@ const Header = () => {
           <HeaderItem onClick={handleSignOutClick}>Sair</HeaderItem>
         )}
 
-        <HeaderItem onClick={toggleCart}>
+        <HeaderItem onClick={handleCartClick}>
           <BsCart3 size={25} /> <p style={{ marginLeft: 5 }}>{productsCount}</p>
         </HeaderItem>
       </Headeritems>
