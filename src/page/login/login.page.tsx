@@ -27,7 +27,7 @@ import {
 import { auth, db, googleProvider } from '../../config/firebase.config'
 import { addDoc, collection, getDocs, query, where } from 'firebase/firestore'
 import LoadingComponent from '../../components/loading/loading.component'
-import { useSelector } from 'react-redux'
+import { useAppSelector } from '../../hooks/redux.hooks'
 
 interface LoginForm {
   email: string
@@ -45,8 +45,8 @@ const LoginPage = () => {
 
   const navigate = useNavigate()
 
-  const { isAuthenticated } = useSelector(
-    (rootReducer: any) => rootReducer.userReducer
+  const { isAuthenticated } = useAppSelector(
+    (rootReducer) => rootReducer.userReducer
   )
 
   useEffect(() => {
