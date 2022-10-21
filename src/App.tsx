@@ -21,6 +21,7 @@ import AuthenticationGuard from './guards/authentication.guards'
 import CategoryDetailsPage from './page/category-details/category-details.page'
 import CheckoutPage from './page/checkout/checkout.page'
 import ExplorePage from './page/explore/explore.page'
+import { LoginAction, LogoutAction } from './store/reducers/user/user.actions'
 
 const App: FunctionComponent = () => {
   const [isInitialize, setInitialize] = useState(true)
@@ -35,9 +36,7 @@ const App: FunctionComponent = () => {
       const isSigninOut = isAuthenticated && !user
 
       if (isSigninOut) {
-        dispatch({
-          type: 'LOGOUT_USER'
-        })
+        dispatch(LogoutAction())
 
         return setInitialize(false)
       }
@@ -52,7 +51,7 @@ const App: FunctionComponent = () => {
         )
         const userFromFirestore = querySnapshot.docs[0]?.data()
 
-        dispatch({ type: 'LOGIN_USER', payload: userFromFirestore })
+        dispatch(LoginAction(userFromFirestore))
 
         return setInitialize(false)
       }
