@@ -1,4 +1,4 @@
-import { FunctionComponent, useEffect, useContext } from 'react'
+import { FunctionComponent, useEffect } from 'react'
 import { useNavigate, useSearchParams } from 'react-router-dom'
 import {
   AiOutlineCheckCircle,
@@ -12,14 +12,15 @@ import {
   PaymentConfiramtionContent
 } from './payment-confirmation.styles'
 import Colors from '../../theme/theme.colors'
-import { CartContext } from '../../contexts/cart.context'
+import { useDispatch } from 'react-redux'
+import { clearCartProducts } from '../../store/reducers/cart/cart.actions'
 
 const PaymentConfirmationPage: FunctionComponent = () => {
+  const dispatch = useDispatch()
   const navigate = useNavigate()
   const handleBackHome = () => {
     navigate('/')
   }
-  const { clearProducts } = useContext(CartContext)
 
   const [searcParams] = useSearchParams()
   const status = searcParams.get('success')
@@ -27,7 +28,7 @@ const PaymentConfirmationPage: FunctionComponent = () => {
 
   useEffect(() => {
     if (status === 'true') {
-      clearProducts()
+      dispatch(clearCartProducts())
     }
   }, [status])
   return (

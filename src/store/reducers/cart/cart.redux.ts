@@ -1,27 +1,31 @@
-import CartProductType from '../../../types/cart.types'
-import CartActionTypes from './cart.actions-type'
+import CartProduct from '../../../types/cart.types'
+import CartActionTypes from '../cart/cart.actions-type'
 
 interface InitialState {
   isVisible: boolean
-  products: CartProductType[]
+  products: CartProduct[]
 }
 
 const initialState: InitialState = {
   isVisible: false,
   products: []
 }
+
 const cartReducer = (state = initialState, action: any) => {
   switch (action.type) {
-    case CartActionTypes.toogleCart:
+    case CartActionTypes.toggleCart:
       return { ...state, isVisible: !state.isVisible }
 
     case CartActionTypes.addProductToCart: {
       const product = action.payload
 
-      const productAlreadInCart = state.products.some(
+      // verificar se o produto já está no carrinho
+      const productIsAlreadyInCart = state.products.some(
         (item) => item.id === product.id
       )
-      if (productAlreadInCart) {
+
+      // se sim -> aumentar sua quantidade
+      if (productIsAlreadyInCart) {
         return {
           ...state,
           products: state.products.map((item) =>
@@ -31,14 +35,53 @@ const cartReducer = (state = initialState, action: any) => {
           )
         }
       }
+
+      // se não -> adicioná-lo
       return {
         ...state,
         products: [...state.products, { ...product, quantity: 1 }]
       }
     }
-    default: {
+
+    case CartActionTypes.removeProductFromCart:
+      return {
+        ...state,
+        products: state.products.filter(
+          (product) => product.id !== action.payload
+        )
+      }
+
+    case CartActionTypes.increaseCartProductQuantity:
+      return {
+        ...state,
+        products: state.products.map((product) =>
+          product.id === action.payload
+            ? { ...product, quantity: product.quantity + 1 }
+            : product
+        )
+      }
+
+    case CartActionTypes.decreaseCartProductQuantity:
+      return {
+        ...state,
+        products: state.products
+          .map((product) =>
+            product.id === action.payload
+              ? { ...product, quantity: product.quantity - 1 }
+              : product
+          )
+          .filter((product) => product.quantity > 0)
+      }
+
+    case CartActionTypes.clearCartProducts:
+      return {
+        ...state,
+        products: []
+      }
+
+    default:
       return { ...state }
-    }
   }
 }
+
 export default cartReducer
