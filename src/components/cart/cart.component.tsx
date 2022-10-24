@@ -12,7 +12,7 @@ import {
 import CartItem from '../cart-item/cart-item.component'
 import { useAppSelector } from '../../hooks/redux.hooks'
 import { useDispatch } from 'react-redux'
-import { toogleCart } from '../../store/reducers/cart/cart.actions'
+import { toggleCart } from '../../store/reducers/cart/cart.actions'
 import {
   selectProductsCount,
   selectProductsTotalPrice
@@ -30,11 +30,11 @@ const Cart: FunctionComponent = () => {
 
   const handleCheckoutClick = () => {
     navigate('/checkout')
-    dispatch(toogleCart())
+    dispatch(toggleCart())
   }
 
   const handleEscapeAreaClick = () => {
-    dispatch(toogleCart())
+    dispatch(toggleCart())
   }
 
   return (
