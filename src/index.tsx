@@ -16,9 +16,7 @@ root.render(
   <React.StrictMode>
     <Provider store={store}>
       <PersistGate persistor={persistedStore}>
-        <CategoryContextProvider>
           <App />
-        </CategoryContextProvider>
       </PersistGate>
     </Provider>
   </React.StrictMode>
