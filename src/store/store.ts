@@ -22,6 +22,9 @@ const persistedRootReducer: typeof rootReducer = persistReducer(
   persistonfig,
   rootReducer
 )
-export const store = createStore(persistedRootReducer, applyMiddleware(thunk,logger))
+export const store = createStore(
+  persistedRootReducer,
+  applyMiddleware(thunk, logger)
+)
 export const persistedStore = persistStore(store)
 export type RootState = ReturnType<typeof store.getState>
