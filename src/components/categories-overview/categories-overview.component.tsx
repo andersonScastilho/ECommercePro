@@ -9,7 +9,9 @@ import LoadingComponent from '../loading/loading.component'
 import { Container } from './categoires-overview.styles'
 
 const CategoriesOverview: FunctionComponent = () => {
-  const {isLoading, categories} = useAppSelector(state => state.categoryReducer)
+  const { isLoading, categories } = useAppSelector(
+    (state) => state.categoryReducer
+  )
   const dispatch = useDispatch()
   useEffect(() => {
     if (categories.length === 0) {
