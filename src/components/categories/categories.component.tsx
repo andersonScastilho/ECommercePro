@@ -11,13 +11,15 @@ import { fetchCategories } from '../../store/reducers/category/category.actions'
 import { useAppSelector } from '../../hooks/redux.hooks'
 
 const Categories = () => {
-  const {categories, isLoading} = useAppSelector(state => state.categoryReducer)
-  
+  const { categories, isLoading } = useAppSelector(
+    (state) => state.categoryReducer
+  )
+
   const dispatch = useDispatch()
   useEffect(() => {
     dispatch(fetchCategories() as any)
   }, [])
-  
+
   return (
     <CategoriesContainer>
       {isLoading && <LoadingComponent />}
