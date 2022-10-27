@@ -12,7 +12,7 @@ import {
 import CartItem from '../cart-item/cart-item.component'
 import { useAppSelector } from '../../hooks/redux.hooks'
 import { useDispatch } from 'react-redux'
-import { toggleCart } from '../../store/reducers/cart/cart.actions'
+import { toggleCart } from '../../store/toolkit/cart/cart.slice'
 import {
   selectProductsCount,
   selectProductsTotalPrice

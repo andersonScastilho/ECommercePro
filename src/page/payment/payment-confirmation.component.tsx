@@ -13,7 +13,7 @@ import {
 } from './payment-confirmation.styles'
 import Colors from '../../theme/theme.colors'
 import { useDispatch } from 'react-redux'
-import { clearCartProducts } from '../../store/reducers/cart/cart.actions'
+import { clearCartProducts } from '../../store/toolkit/cart/cart.slice'
 
 const PaymentConfirmationPage: FunctionComponent = () => {
   const dispatch = useDispatch()

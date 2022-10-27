@@ -8,7 +8,7 @@ import {
   ProductInfo
 } from './product-item.styles'
 import { useDispatch } from 'react-redux'
-import { addProductToCart } from '../../store/reducers/cart/cart.actions'
+import { addProductToCart } from '../../store/toolkit/cart/cart.slice'
 
 interface ProductItemProps {
   product: ProdutoType
