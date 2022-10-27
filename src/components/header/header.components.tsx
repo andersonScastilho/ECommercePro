@@ -11,7 +11,7 @@ import {
 } from './header.styles'
 import { signOut } from 'firebase/auth'
 import { auth } from '../../config/firebase.config'
-import { LogoutAction } from '../../store/reducers/user/user.actions'
+import { logoutUser } from '../../store/toolkit/user/user.slice'
 import { toggleCart } from '../../store/reducers/cart/cart.actions'
 import { useAppSelector } from '../../hooks/redux.hooks'
 import { selectProductsCount } from '../../store/reducers/cart/cart.selectors'
@@ -44,7 +44,7 @@ const Header = () => {
   }
 
   const handleSignOutClick = () => {
-    dispatch(LogoutAction())
+    dispatch(logoutUser())
     signOut(auth)
   }
   const handleCartClick = () => {
