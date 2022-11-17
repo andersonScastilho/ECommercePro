@@ -35,4 +35,27 @@ export const CategoriesContent = styled.div`
     'd e';
   grid-gap: 15px;
   padding: 30px;
+
+  @media (max-width: 768px) {
+    display: flex;
+    flex-direction: column;
+    & div:nth-child(1) {
+      flex: 1;
+    }
+    & div:nth-child(2) {
+      flex: 1;
+    }
+
+    & div:nth-child(3) {
+      flex: 1;
+    }
+
+    & div:nth-child(4) {
+      flex: 1;
+    }
+
+    & div:nth-child(5) {
+      flex: 1;
+    }
+  }
 `
