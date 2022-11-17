@@ -6,6 +6,9 @@ export const LoginContainer = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
+  @media (max-width) {
+    width: 90%;
+  }
 `
 
 export const LoginHeadline = styled.p`
