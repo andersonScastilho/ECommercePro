@@ -22,6 +22,7 @@ export const ProductsContainer = styled.div`
   grid-row-gap: 20px;
   @media (max-width: 768px) {
     display: flex;
+    align-items: center;
     flex-direction: column;
   }
 `

@@ -19,6 +19,7 @@ export const ProductsContainer = styled.div`
   justify-content: space-between;
   flex-wrap: wrap;
   @media (max-width: 768px) {
+    justify-content: center;
     grid-row-gap: 20px;
   }
 `
