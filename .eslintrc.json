@@ -20,7 +20,8 @@
       "no-use-before-define": "off",
       "space-before-function-paren": "off",
       "multiline-ternary": "off",
-      "eslint-disable-next-line": "off"
+      "eslint-disable-next-line": "off",
+      "prefer-promise-reject-errors":"off"
       
     }
   }
