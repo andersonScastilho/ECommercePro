@@ -141,11 +141,17 @@ const SignUpPage = () => {
               placeholder="Digite sua senha"
               type="password"
               {...register('password', {
-                required: true
+                required: true,
+                minLength: 6
               })}
             />
             {errors?.password?.type === 'required' && (
               <InputErrorMessage>A senha é obrigatória.</InputErrorMessage>
+            )}
+            {errors?.password?.type === 'minLength' && (
+              <InputErrorMessage>
+                A senha precisa ter no mínimo 6 caracteres.
+              </InputErrorMessage>
             )}
           </SignUpInputContainer>
           <SignUpInputContainer>
