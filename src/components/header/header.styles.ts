@@ -31,7 +31,11 @@ export const Headeritems = styled.div`
   @media (max-width: 768px) {
     width: 100%;
     justify-content: space-evenly;
-  } ;
+  } 
+  &:hover {
+      cursor: pointer;
+    }
+    ;
 `
 export const HeaderItem = styled.div`
   font-weight: 600;
@@ -45,9 +49,6 @@ export const HeaderItem = styled.div`
     margin-right: 40px;
     @media (max-width: 768px) {
       margin-right: 0;
-    }
-    &:hover {
-      cursor: pointer;
     }
   }
 `
