@@ -3,13 +3,13 @@ const { getFirestore } = require('firebase/firestore')
 const { initializeApp } = require('firebase/app')
 
 const firebaseConfig = {
-  apiKey: 'AIzaSyCmTGR-OnK2Dcq1U_xUwSUz-xPJUyyuDTo',
-  authDomain: 'club-ecoomerce-2.firebaseapp.com',
-  projectId: 'club-ecoomerce-2',
-  storageBucket: 'club-ecoomerce-2.appspot.com',
-  messagingSenderId: '638971033933',
-  appId: '1:638971033933:web:72d8368e57e71e7c829f04'
-}
+  apiKey: "AIzaSyBpi4m7e1zGi2ibW8g5pUZOVvL9I5WFGcY",
+  authDomain: "ecommercepro-fa4e4.firebaseapp.com",
+  projectId: "ecommercepro-fa4e4",
+  storageBucket: "ecommercepro-fa4e4.appspot.com",
+  messagingSenderId: "1005292232988",
+  appId: "1:1005292232988:web:577d5880a836c678a21ad9"
+};
 
 const app = initializeApp(firebaseConfig)
 const db = getFirestore(app)
